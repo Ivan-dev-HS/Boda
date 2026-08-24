@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#d8c39a">
 <title>Cristina &amp; Ivan · 26·06·2027</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='29' fill='%23ee1515' stroke='%231a1a1a' stroke-width='3'/%3E%3Cpath d='M3 32h58' stroke='%231a1a1a' stroke-width='6'/%3E%3Cpath d='M3 32a29 29 0 0 0 58 0z' fill='%23fff' stroke='%231a1a1a' stroke-width='3'/%3E%3Ccircle cx='32' cy='32' r='10' fill='%23fff' stroke='%231a1a1a' stroke-width='4'/%3E%3Ccircle cx='32' cy='32' r='4' fill='%231a1a1a'/%3E%3C/svg%3E">
@@ -38,6 +38,10 @@ body{
   min-height:100vh;
   overflow-x:hidden;
   -webkit-font-smoothing:antialiased;
+}
+/* en móvil, "fixed" en el fondo puede desalinearse con el zoom/teclado del navegador */
+@media (hover:none) and (pointer:coarse){
+  body{background-attachment:scroll}
 }
 /* textura sutil de papel + manchas */
 body::before{
