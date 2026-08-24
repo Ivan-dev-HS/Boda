@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#d8c39a">
 <title>Cristina &amp; Ivan · 26·06·2027</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='29' fill='%23ee1515' stroke='%231a1a1a' stroke-width='3'/%3E%3Cpath d='M3 32h58' stroke='%231a1a1a' stroke-width='6'/%3E%3Cpath d='M3 32a29 29 0 0 0 58 0z' fill='%23fff' stroke='%231a1a1a' stroke-width='3'/%3E%3Ccircle cx='32' cy='32' r='10' fill='%23fff' stroke='%231a1a1a' stroke-width='4'/%3E%3Ccircle cx='32' cy='32' r='4' fill='%231a1a1a'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=IM+Fell+English:ital@0;1&family=Special+Elite&display=swap" rel="stylesheet">
@@ -246,10 +247,74 @@ footer .q{font-family:"IM Fell English",serif;font-style:italic;font-size:15px;m
 .lb img{max-width:100%;max-height:92vh;border-radius:6px;box-shadow:0 20px 60px rgba(0,0,0,.6)}
 .lb .x{position:absolute;top:16px;right:18px;color:#f3e6c8;font-size:30px;line-height:1}
 
+/* ---------- toque Pokémon ---------- */
+.pokeball{
+  display:inline-block;width:.8em;height:.8em;border-radius:50%;flex:none;
+  background:linear-gradient(#ee1515 0 48%, #1a1a1a 48% 52%, #fff 52% 100%);
+  border:.09em solid #1a1a1a;position:relative;vertical-align:-.1em;
+  box-shadow:0 1px 3px rgba(0,0,0,.3);
+}
+.pokeball::after{
+  content:"";position:absolute;left:50%;top:50%;width:.3em;height:.3em;
+  background:#fff;border:.09em solid #1a1a1a;border-radius:50%;
+  transform:translate(-50%,-50%);
+}
+.pokeball.spin{animation:pbspin 2.8s linear infinite}
+@keyframes pbspin{to{transform:rotate(360deg)}}
+.kicker .pokeball{margin-right:8px}
+.h2 .pokeball{margin-left:12px;font-size:.66em;vertical-align:.16em}
+.seg label.yes .pokeball{margin-right:6px}
+
+/* insignia estilo Pokédex bajo "¡Te elijo a ti!" */
+.dexline{
+  margin:14px 0 0;display:inline-flex;align-items:center;gap:7px;
+  font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:#f6ecc9;background:rgba(10,8,4,.32);border:1px solid rgba(246,236,201,.35);
+  padding:5px 13px;border-radius:999px;
+}
+
+/* animación de "captura" al abrir la invitación */
+.catch{
+  position:fixed;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:14px;pointer-events:none;opacity:0;text-align:center;padding:0 24px;
+}
+.catch .ball{
+  width:56px;height:56px;border-radius:50%;
+  background:linear-gradient(#ee1515 0 46%, #1a1a1a 46% 54%, #fff 54% 100%);
+  border:3px solid #1a1a1a;position:relative;box-shadow:0 10px 28px rgba(0,0,0,.45);
+}
+.catch .ball::after{
+  content:"";position:absolute;left:50%;top:50%;width:18px;height:18px;background:#fff;
+  border:3px solid #1a1a1a;border-radius:50%;transform:translate(-50%,-50%);
+}
+.catch .msg{font-family:"IM Fell English SC",serif;font-size:20px;color:#f6ecd6;
+  text-shadow:0 2px 12px rgba(0,0,0,.7);margin:0}
+.catch.play{animation:catchFade 2.7s ease forwards}
+.catch.play .ball{animation:catchShake 2.7s ease forwards}
+@keyframes catchFade{
+  0%{opacity:0}
+  8%{opacity:1}
+  80%{opacity:1}
+  100%{opacity:0}
+}
+@keyframes catchShake{
+  0%{transform:translateY(-34px) scale(.4)}
+  16%{transform:translateY(0) scale(1)}
+  24%,32%{transform:rotate(-16deg)}
+  28%,36%{transform:rotate(16deg)}
+  40%{transform:rotate(0)}
+  48%,56%{transform:rotate(-12deg)}
+  52%,60%{transform:rotate(12deg)}
+  64%{transform:rotate(0)}
+  100%{transform:scale(1)}
+}
+
 @media (prefers-reduced-motion:reduce){
   .door{transition:transform .01s linear}
   .section{transition:none;opacity:1;transform:none}
   .hint,.scrollcue{animation:none}
+  .pokeball.spin{animation:none}
+  .catch{display:none}
 }
 @media(min-width:560px){ .cards{grid-template-columns:1fr 1fr} .info.full{grid-column:1/-1} }
 </style>
@@ -259,7 +324,7 @@ footer .q{font-family:"IM Fell English",serif;font-style:italic;font-size:15px;m
 
 <!-- ============ PORTADA / APERTURA ============ -->
 <header class="hero">
-  <p class="kicker">Nos casamos · 26·06·2027</p>
+  <p class="kicker"><span class="pokeball" aria-hidden="true"></span>Nos casamos · 26·06·2027</p>
 
   <div class="stage">
     <div class="card" id="card" role="button" tabindex="0" aria-label="Abrir la invitación">
@@ -270,6 +335,7 @@ footer .q{font-family:"IM Fell English",serif;font-style:italic;font-size:15px;m
           <h1 class="names">Cristina<span class="amp">&amp;</span>Ivan</h1>
           <p class="idate">26 · 06 · 2027</p>
           <p class="pick">¡Te elijo a ti!</p>
+          <p class="dexline"><span class="pokeball spin" aria-hidden="true"></span>Nº 001 · Tipo Amor / Aventura</p>
         </div>
         <div class="swipe">desliza para leer ↓</div>
       </div>
@@ -290,7 +356,7 @@ footer .q{font-family:"IM Fell English",serif;font-style:italic;font-size:15px;m
   <!-- ============ CARTA / INTERIOR ============ -->
   <section class="section wrap" id="s-carta">
     <p class="eyebrow">After all this time? · Always</p>
-    <h2 class="h2">Nuestra historia</h2>
+    <h2 class="h2">Nuestra historia<span class="pokeball" aria-hidden="true"></span></h2>
     <div class="rule"></div>
     <div class="letter">
       <p>Sin saberlo, nuestros caminos se cruzaron destinados a encontrarse…</p>
@@ -305,7 +371,7 @@ footer .q{font-family:"IM Fell English",serif;font-style:italic;font-size:15px;m
   <!-- ============ DETALLES ============ -->
   <section class="section wrap" id="s-detalles">
     <p class="eyebrow">El gran día</p>
-    <h2 class="h2">Cuándo &amp; dónde</h2>
+    <h2 class="h2">Cuándo &amp; dónde<span class="pokeball" aria-hidden="true"></span></h2>
     <div class="rule"></div>
     <div class="cards">
       <div class="info">
@@ -340,7 +406,7 @@ footer .q{font-family:"IM Fell English",serif;font-style:italic;font-size:15px;m
   <!-- ============ MAPA (REVERSO) ============ -->
   <section class="section wrap" id="s-mapa">
     <p class="eyebrow">El mapa de nuestra aventura</p>
-    <h2 class="h2">I choose you</h2>
+    <h2 class="h2">I choose you<span class="pokeball" aria-hidden="true"></span></h2>
     <div class="rule"></div>
     <div class="zoom" id="mapZoom">
       <img id="mapImg" alt="Mapa ilustrado de nuestra aventura" loading="lazy">
@@ -352,7 +418,7 @@ footer .q{font-family:"IM Fell English",serif;font-style:italic;font-size:15px;m
   <section class="section wrap" id="s-rsvp">
     <div class="rsvp">
       <p class="eyebrow">Confirmación</p>
-      <h2 class="h2">¿Nos acompañas?</h2>
+      <h2 class="h2">¿Nos acompañas?<span class="pokeball" aria-hidden="true"></span></h2>
       <p class="lead">Al enviar se abrirá WhatsApp con tu respuesta lista para mandárnosla.</p>
 
       <div id="form">
@@ -364,7 +430,7 @@ footer .q{font-family:"IM Fell English",serif;font-style:italic;font-size:15px;m
         <div class="field">
           <label>¿Asistirás?</label>
           <div class="seg">
-            <div><input type="radio" name="asiste" id="a-si" value="Sí, allí estaré"><label class="yes" for="a-si">Sí, allí estaré ✨</label></div>
+            <div><input type="radio" name="asiste" id="a-si" value="Sí, allí estaré"><label class="yes" for="a-si"><span class="pokeball" aria-hidden="true"></span>Sí, allí estaré ✨</label></div>
             <div><input type="radio" name="asiste" id="a-no" value="No podré ir"><label class="no" for="a-no">No podré ir 🥲</label></div>
           </div>
         </div>
@@ -407,6 +473,11 @@ footer .q{font-family:"IM Fell English",serif;font-style:italic;font-size:15px;m
 
 <div class="lb" id="lb"><span class="x">✕</span><img id="lbImg" alt=""></div>
 
+<div class="catch" id="catch" aria-hidden="true">
+  <div class="ball"></div>
+  <p class="msg">¡Os habéis capturado el uno al otro… para siempre!</p>
+</div>
+
 <script>
 /* ============================================================
    ⚙️  CONFIGURA AQUÍ  (solo estas dos líneas)
@@ -436,6 +507,11 @@ function openCard(){
   document.body.classList.remove('locked');
   document.documentElement.classList.remove('locked');
   document.body.classList.add('opened');
+  const catchEl=document.getElementById('catch');
+  if(catchEl){
+    catchEl.classList.add('play');
+    setTimeout(()=>catchEl.classList.remove('play'),2700);
+  }
 }
 card.addEventListener('click', openCard);
 card.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){e.preventDefault();openCard();} });
