@@ -76,9 +76,11 @@ html.locked,body.locked{overflow:hidden!important;height:100%;touch-action:none;
 }
 .stage{
   -webkit-perspective:1900px; perspective:1900px; width:min(86vw,392px);
-  /* la sombra vive aquí, no en .card: mezclar filter con transform-style:preserve-3d
-     rompe el renderizado 3D en Safari (las puertas quedan visibles a medio girar) */
-  filter:drop-shadow(0 26px 34px rgba(40,26,10,.42));
+  border-radius:5px;
+  /* box-shadow, no filter: cualquier filter en la cadena que envuelve la escena 3D
+     (incluso sin preserve-3d en el propio elemento) fuerza a Safari a aplanarla,
+     dejando la puerta girada visible como un rectángulo "fantasma" */
+  box-shadow:0 26px 34px rgba(40,26,10,.42);
 }
 .card{
   position:relative;width:100%;aspect-ratio:1040/1475;
