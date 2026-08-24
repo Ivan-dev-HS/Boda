@@ -74,11 +74,15 @@ html.locked,body.locked{overflow:hidden!important;height:100%;touch-action:none;
   font-size:12px;letter-spacing:.42em;text-transform:uppercase;
   color:var(--sepia);margin:0;
 }
-.stage{ perspective:1900px; width:min(86vw,392px); }
+.stage{
+  -webkit-perspective:1900px; perspective:1900px; width:min(86vw,392px);
+  /* la sombra vive aquí, no en .card: mezclar filter con transform-style:preserve-3d
+     rompe el renderizado 3D en Safari (las puertas quedan visibles a medio girar) */
+  filter:drop-shadow(0 26px 34px rgba(40,26,10,.42));
+}
 .card{
   position:relative;width:100%;aspect-ratio:1040/1475;
-  transform-style:preserve-3d;
-  filter:drop-shadow(0 26px 34px rgba(40,26,10,.42));
+  -webkit-transform-style:preserve-3d;transform-style:preserve-3d;
   cursor:pointer;border-radius:5px;
 }
 /* interior que se revela */
@@ -110,11 +114,11 @@ html.locked,body.locked{overflow:hidden!important;height:100%;touch-action:none;
 /* puertas (dos mitades de la portada) */
 .door{
   position:absolute;top:0;height:100%;width:50%;
-  transform-style:preserve-3d;
+  -webkit-transform-style:preserve-3d;transform-style:preserve-3d;
   transition:transform 1.9s cubic-bezier(.62,.02,.2,1);
   z-index:3;
 }
-.door .face{position:absolute;inset:0;backface-visibility:hidden;overflow:hidden;
+.door .face{position:absolute;inset:0;-webkit-backface-visibility:hidden;backface-visibility:hidden;overflow:hidden;
   background-size:200% 100%;background-repeat:no-repeat}
 .door .front{}
 .door .back{transform:rotateY(180deg);
