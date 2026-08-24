@@ -27,6 +27,10 @@
 }
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
+/* explícito en html (no solo en body): al quitar la clase .locked al abrir la
+   invitación, html se quedaba sin ninguna regla de overflow-x propia y el
+   navegador podía desplazar la página horizontalmente unos instantes */
+html{overflow-x:hidden}
 body{
   font-family:"Special Elite",monospace;
   color:var(--ink);
@@ -523,6 +527,14 @@ function openCard(){
     catchEl.classList.add('play');
     setTimeout(()=>catchEl.classList.remove('play'),2700);
   }
+  /* red de seguridad: si el giro 3D de las puertas provoca overflow horizontal
+     momentáneo en algún navegador, esto lo corrige fotograma a fotograma
+     mientras dura la animación de apertura */
+  const t0=performance.now();
+  (function killDrift(t){
+    if(window.scrollX) window.scrollTo(0,window.scrollY);
+    if(t-t0<2000) requestAnimationFrame(killDrift);
+  })(t0);
 }
 card.addEventListener('click', openCard);
 card.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){e.preventDefault();openCard();} });
