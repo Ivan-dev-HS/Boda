@@ -117,7 +117,7 @@ html.locked,body.locked{overflow:hidden!important;height:100%;touch-action:none;
 .door{
   position:absolute;top:0;height:100%;width:50%;
   -webkit-transform-style:preserve-3d;transform-style:preserve-3d;
-  transition:transform 1.9s cubic-bezier(.62,.02,.2,1);
+  transition:transform 1.9s cubic-bezier(.62,.02,.2,1), opacity .5s ease 1.3s, visibility 0s linear 1.8s;
   z-index:3;
 }
 .door .face{position:absolute;inset:0;-webkit-backface-visibility:hidden;backface-visibility:hidden;overflow:hidden;
@@ -139,8 +139,8 @@ html.locked,body.locked{overflow:hidden!important;height:100%;touch-action:none;
 }
 .door-left .front::after{right:0;background:linear-gradient(90deg,transparent,rgba(20,12,4,.28))}
 .door-right .front::after{left:0;background:linear-gradient(270deg,transparent,rgba(20,12,4,.28))}
-.open .door-left{transform:rotateY(-168deg)}
-.open .door-right{transform:rotateY(168deg)}
+.open .door-left{transform:rotateY(-168deg);opacity:0;visibility:hidden;pointer-events:none}
+.open .door-right{transform:rotateY(168deg);opacity:0;visibility:hidden;pointer-events:none}
 .open .door .front::after{opacity:0}
 
 .hint{
@@ -321,7 +321,7 @@ footer .q{font-family:"IM Fell English",serif;font-style:italic;font-size:15px;m
 }
 
 @media (prefers-reduced-motion:reduce){
-  .door{transition:transform .01s linear}
+  .door{transition:transform .01s linear,opacity .01s linear,visibility .01s linear}
   .section{transition:none;opacity:1;transform:none}
   .hint,.scrollcue{animation:none}
   .pokeball.spin{animation:none}
