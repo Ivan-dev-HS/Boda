@@ -455,6 +455,8 @@ footer .q{font-family:"IM Fell English",serif;font-style:italic;font-size:15px;m
           <input id="acomp" type="number" min="0" max="10" inputmode="numeric" placeholder="0">
         </div>
 
+        <div id="acompNames"></div>
+
         <div class="field">
           <label for="alergias">Alergias o intolerancias</label>
           <input id="alergias" type="text" placeholder="Opcional">
@@ -671,6 +673,32 @@ document.getElementById('calBtn').addEventListener('click',()=>{
   document.body.appendChild(a); a.click(); a.remove();
 });
 
+/* ---- nombres de acompañantes según el nº indicado ---- */
+const acompInput=document.getElementById('acomp');
+const acompNames=document.getElementById('acompNames');
+function renderAcompNames(){
+  const n=Math.max(0,Math.min(10,parseInt(acompInput.value,10)||0));
+  const prev=Array.from(acompNames.querySelectorAll('input')).map(i=>i.value);
+  acompNames.innerHTML='';
+  for(let i=0;i<n;i++){
+    const div=document.createElement('div');
+    div.className='field';
+    const label=document.createElement('label');
+    label.setAttribute('for',`acomp-name-${i}`);
+    label.textContent=`Nombre del acompañante ${i+1}`;
+    const input=document.createElement('input');
+    input.type='text';
+    input.id=`acomp-name-${i}`;
+    input.placeholder='Nombre y apellidos';
+    input.value=prev[i]||'';
+    div.appendChild(label);
+    div.appendChild(input);
+    acompNames.appendChild(div);
+  }
+}
+acompInput.addEventListener('input',renderAcompNames);
+renderAcompNames();
+
 /* ---- envío RSVP ---- */
 const err=document.getElementById('err');
 document.getElementById('send').addEventListener('click',()=>{
@@ -681,6 +709,8 @@ document.getElementById('send').addEventListener('click',()=>{
   err.textContent='';
   const asiste=asisteEl.value;
   const acomp=document.getElementById('acomp').value.trim()||'0';
+  const nombresAcomp=Array.from(acompNames.querySelectorAll('input'))
+    .map(i=>i.value.trim()).filter(Boolean);
   const alergias=document.getElementById('alergias').value.trim()||'—';
   const cancion=document.getElementById('cancion').value.trim()||'—';
 
@@ -688,7 +718,7 @@ document.getElementById('send').addEventListener('click',()=>{
 `✨ Confirmación · Boda Cristina & Ivan ✨
 👤 Nombre: ${nombre}
 ✅ Asistencia: ${asiste}
-👥 Acompañantes: ${acomp}
+👥 Acompañantes: ${acomp}${nombresAcomp.length ? ' ('+nombresAcomp.join(', ')+')' : ''}
 🍽 Alergias/intolerancias: ${alergias}
 🎵 Canción imprescindible: ${cancion}`;
 
